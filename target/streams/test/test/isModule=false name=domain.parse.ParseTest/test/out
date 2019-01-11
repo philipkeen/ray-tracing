@@ -1,4 +1,0 @@
-[0m[[0m[0minfo[0m] [0m[0m[32mParseTest:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- parse.parseFileContents should parse a scene[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- parse.parsefileContents should ignore content-less lines[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- parse.parsefileContents should report bad vector[0m[0m

@@ -1,4 +1,0 @@
-[0m[[0m[0minfo[0m] [0m[0m[32mPhysicsAlgTest:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- PhysicsAlg.contact returns ray's first hit with sphere[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- PhysicsAlg.contact recognises miss[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[32m- PhysicsAlg.contact correctly calculates reflection off sphere[0m[0m
