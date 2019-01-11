@@ -2,7 +2,7 @@ package domain
 
 import domain.maths.NonNegativeNumber
 
-trait RandomAlg {
+trait RandomNumber {
 
   def randomDouble: Double
 

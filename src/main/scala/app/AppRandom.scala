@@ -1,11 +1,11 @@
 package app
 
-import domain.RandomAlg
+import domain.RandomNumber
 import domain.maths.NonNegativeNumber
 
 import scala.util.Random
 
-class AppRandom extends RandomAlg {
+class AppRandom extends RandomNumber {
 
   override def randomDouble: Double = Random.nextDouble()
 

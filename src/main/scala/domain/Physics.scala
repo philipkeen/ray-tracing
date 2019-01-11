@@ -6,7 +6,7 @@ import domain.maths.NonNegativeNumber.square
 import domain.maths.PositiveInteger.One
 import domain.model._
 
-object PhysicsAlg {
+object Physics {
 
   private implicit val Epsilon: Double = math.pow(10, -12)
 
@@ -23,22 +23,7 @@ object PhysicsAlg {
   private def contactWith2DShape(ray: CartesianRay, shape: PlanarShape): Option[Hit] = {
     val surfacePointMaybe = shape match {
       case triangle: Triangle => intersectionWithTriangle(ray, triangle)
-      //      case disc: Disc =>
-      //        checkRayNotParallelWithShape(ray, disc) {
-      //          checkRayHitsShape(ray, disc) { intersectionWithPlane =>
-      //            (disc.centre distanceTo intersectionWithPlane) <= disc.radius.value
-      //          }
-      //        } map { SurfacePoint(_, disc.surfaceNormal) }
       case ellipse: Ellipse => intersectionWithEllipse(ray, ellipse)
-      //        solveUsingEllipseAlignedToXYPlane(ray, ellipse) { case (alignedRay, alignedEllipse) =>
-      //          checkRayNotParallelWithShape(alignedRay, alignedEllipse) {
-      //            checkRayHitsShape(alignedRay, alignedEllipse) { intersectionWithPlane =>
-      //              val x = intersectionWithPlane.x - alignedEllipse.centre.x
-      //              val y = intersectionWithPlane.y - alignedEllipse.centre.y
-      //              square(x / ellipse.axis0Length) + square(y / ellipse.axis1Length) <= 1
-      //            }
-      //          }
-      //        } map { SurfacePoint(_, ellipse.surfaceNormal) }
     }
     surfacePointMaybe.map { surfacePoint =>
       Hit(

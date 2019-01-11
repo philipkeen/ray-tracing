@@ -48,20 +48,6 @@ object Triangle {
       )
     } else Left(InvalidArgumentError(s"Error creating triangle on $vertex0, $vertex1, $vertex2 - vertices must be distinct"))
 }
-
-//final case class Disc(
-//  centre: CartesianVector,
-//  radius: PositiveNumber,
-//  horizontalTurn: Radians,
-//  verticalTilt: Radians,
-//  override val reflectivity: Proportion,
-//  override val colour: Colour
-//) extends PlanarShape {
-//
-//  override val surfaceNormal: UnitCartesianVector =
-//    SphericalCoordinateVector.toUnitVector(horizontalTurn, verticalTilt).toCartesianVector.toUnitVector
-//}
-
 final case class Ellipse(
   centre: CartesianVector,
   axis0Length: PositiveNumber,

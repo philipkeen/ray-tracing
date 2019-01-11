@@ -2,7 +2,7 @@ package domain
 
 import java.time.ZonedDateTime
 
-trait TimeAlg[F[_]] {
+trait Timer[F[_]] {
 
   def now: F[ZonedDateTime]
 }

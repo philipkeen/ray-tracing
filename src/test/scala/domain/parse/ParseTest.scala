@@ -11,6 +11,7 @@ class ParseTest extends FunSuite {
       "lightSource",
       "  location: (0, -200, 0)",
       "  radius: 10.25",
+      "  ambience: 0.2",
       "renderSettings",
       "  maxReflections: 2",
       "  maxShadowRaysPerPoint: 2",
@@ -24,6 +25,7 @@ class ParseTest extends FunSuite {
       "  vertex1: (1, 2, 3)",
       "  vertex2: (3, 2, 1)",
       "  reflectivity: 0.8",
+      "  transparency: 0",
       "  colour: ffffff",
       "sphere",
       "  centre: (10, 10, 10)",
@@ -68,6 +70,7 @@ class ParseTest extends FunSuite {
       "lightSource",
       "  location: (0, -200, 0)",
       "  radius: 10.25",
+      "  ambience: 0.2",
       "  ",
       "renderSettings",
       "  maxReflections: 2",
@@ -83,6 +86,7 @@ class ParseTest extends FunSuite {
       "  vertex1: (1, 2, 3)",
       "  vertex2: (3, 2, 1)",
       "  reflectivity: 0.8",
+      "  transparency: 0",
       "  colour: ffffff",
       "sphere",
       "  centre: (10, 10, 10)",
@@ -101,6 +105,7 @@ class ParseTest extends FunSuite {
       "lightSource",
       "  location: (0, -200, 0)",
       "  radius: 10.25",
+      "  ambience: 0.2",
       "  ",
       "renderSettings",
       "  maxReflections: 2",
@@ -116,6 +121,7 @@ class ParseTest extends FunSuite {
       "  vertex1: (1, 2, 3)",
       "  vertex2: (3, 2)",
       "  reflectivity: 0.8",
+      "  transparency: 0",
       "  colour: ffffff",
       "sphere",
       "  centre: (10, 10, 10)",
@@ -129,6 +135,6 @@ class ParseTest extends FunSuite {
     val actual = parseFileContents(fileContents)
 
     assert(actual.isLeft)
-    assert(actual.left.get.message == "Error in line 17: Unable to interpret (3, 2) as a vector with three coordinates")
+    assert(actual.left.get.message == "Error in line 18: Unable to interpret (3, 2) as a vector with three coordinates")
   }
 }

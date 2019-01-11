@@ -5,14 +5,14 @@ import domain.model._
 import domain.maths.PositiveInteger.One
 import org.scalatest.FunSuite
 
-class PhysicsAlgTest extends FunSuite {
+class PhysicsTest extends FunSuite {
 
   private val Epsilon = math.pow(10, -12)
 
   private val SqrtTwo = (One + One) ^ 0.5
   private val Two = One + One
 
-  test("PhysicsAlg.contact returns ray's first hit with sphere") {
+  test("Physics.contact returns ray's first hit with sphere") {
     val sphere =
       Sphere(
         centre = CartesianVector(4, 1, 4),
@@ -24,7 +24,7 @@ class PhysicsAlgTest extends FunSuite {
       )
     val fromOrigin = Ray(CartesianVector(-1, 1, -1), CartesianVector.toUnitVector(1, 0, 1))
 
-    val actual = PhysicsAlg.contact(fromOrigin, sphere)
+    val actual = Physics.contact(fromOrigin, sphere)
 
     assert(actual.nonEmpty)
     val hit = actual.get
@@ -36,7 +36,7 @@ class PhysicsAlgTest extends FunSuite {
     assert(math.abs(hit.distanceFromRayOrigin - math.sqrt(16 + 16)) < Epsilon)
   }
 
-  test("PhysicsAlg.contact recognises miss") {
+  test("Physics.contact recognises miss") {
     val sphere =
       Sphere(
         centre = CartesianVector(2, 1, 4),
@@ -48,12 +48,12 @@ class PhysicsAlgTest extends FunSuite {
       )
     val fromOrigin = Ray(CartesianVector(1, 1, 0), CartesianVector.toUnitVector(-1, 0, 1))
 
-    val actual = PhysicsAlg.contact(fromOrigin, sphere)
+    val actual = Physics.contact(fromOrigin, sphere)
 
     assert(actual.isEmpty)
   }
 
-  test("PhysicsAlg.contact correctly calculates reflection off sphere") {
+  test("Physics.contact correctly calculates reflection off sphere") {
     val sphere =
       Sphere(
         centre = CartesianVector(2, 1, 4),
@@ -65,7 +65,7 @@ class PhysicsAlgTest extends FunSuite {
       )
     val fromOrigin = Ray(CartesianVector(1, 1, 0), CartesianVector.toUnitVector(0, 0, 1))
 
-    val actual = PhysicsAlg.contact(fromOrigin, sphere)
+    val actual = Physics.contact(fromOrigin, sphere)
 
     assert(actual.nonEmpty)
     val hit = actual.get

@@ -9,29 +9,10 @@ import domain.maths.PositiveNumber._
 import scala.annotation.tailrec
 import scala.collection.parallel.immutable.ParVector
 
-final case class TracingAlg(random: RandomAlg) {
+final case class Tracing(random: RandomNumber) {
 
   def castRay(
     ray: CartesianRay,
-//    lightSource: LightSource,
-//    objects: Set[Shape],
-//    renderSettings: RenderSettings
-//  ): Colour = {
-//    rayPath(ray, lightSource, objects, renderSettings, reflectionCount = 0, acc = List())
-//      .foldLeft(Option.empty[Colour]) {
-//        case (Some(reflectedColour), ColouredPoint(colour, reflectivity, intensity)) =>
-//          Some(
-//            reflectedColour * reflectivity + colour * (1 - reflectivity) * intensity
-//          )
-//        case (None, ColouredPoint(colour, _, intensity)) =>
-//          Some(
-//            colour * intensity
-//          )
-//      }.getOrElse(renderSettings.defaultColour)
-//  }
-//
-//  def traceRay(
-//    initialRay: CartesianRay,
     lightSource: LightSource,
     objects: Set[Shape],
     renderSettings: RenderSettings
@@ -50,17 +31,14 @@ final case class TracingAlg(random: RandomAlg) {
               withPossibleReflection(hit.reflectionRay, solid, iterationCount) {
                 withPossibleRefraction(hit.refractionRay, solid, iterationCount) {
                   colourInShade(hit.intersectionPoint, hit.surfaceNormal, solid.colour, lightSource, objects, maxShadowRays)
-//                  solid.colour * castShadow(hit, lightSource, objects, maxShadowRays)
                 }
               }
             case _ if iterationCount < maxIterations =>
               withPossibleReflection(hit.reflectionRay, shape, iterationCount) {
                 colourInShade(hit.intersectionPoint, hit.surfaceNormal, shape.colour, lightSource, objects, maxShadowRays)
-//                shape.colour * castShadow(hit, lightSource, objects, maxShadowRays)
               }
             case _ =>
               colourInShade(hit.intersectionPoint, hit.surfaceNormal, shape.colour, lightSource, objects, maxShadowRays)
-//              shape.colour * castShadow(hit, lightSource, objects, maxShadowRays)
           }
         case None =>
           renderSettings.defaultColour
@@ -92,31 +70,12 @@ final case class TracingAlg(random: RandomAlg) {
   private def rayHit(ray: CartesianRay, shapes: Set[Shape]): Option[(Shape, Hit)] =
     shapes
       .foldLeft(None: Option[(Shape, Hit)]) { case (current, shape) =>
-        PhysicsAlg.contact(ray, shape) match {
+        Physics.contact(ray, shape) match {
           case Some(hit) if current.forall(_._2.distanceFromRayOrigin > hit.distanceFromRayOrigin) =>
             Some((shape, hit))
           case _ => current
         }
       }
-
-  private def castShadow(
-    hit: Hit,
-    lightSource: LightSource,
-    objects: Set[Shape],
-    rayCount: PositiveInteger
-  ): Double = {
-    val toLightSource = getRaysToLightSource(hit.intersectionPoint, lightSource, rayCount)
-    val intensities =
-      toLightSource map { ray =>
-        if (objects.exists(shape => PhysicsAlg.contact(ray, shape).nonEmpty)) {
-          0.2
-        } else {
-          val cosAngle = hit.surfaceNormal dot ray.direction
-          0.2 + 0.8 * math.abs(cosAngle)
-        }
-      }
-    intensities.sum/intensities.size
-  }
 
   private def colourInShade(
     point: CartesianVector,
@@ -154,7 +113,7 @@ final case class TracingAlg(random: RandomAlg) {
     objects: Set[Shape]
   ): List[Shape] =
     objects
-      .map(shape => PhysicsAlg.contact(ray, shape).map(hit => (shape, hit)))
+      .map(shape => Physics.contact(ray, shape).map(hit => (shape, hit)))
       .flatMap(_.map { case (shape, hit) => (shape, hit.intersectionPoint) })
       .toList
       .sortBy(_._2 distanceTo ray.origin)

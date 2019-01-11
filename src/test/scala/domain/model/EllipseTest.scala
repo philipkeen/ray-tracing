@@ -9,11 +9,11 @@ import test.VectorTest
 class EllipseTest extends FunSuite with VectorTest {
 
   test("Ellipse.surfaceNormal should reflect orientation") {
-    val toZ = Ellipse(Origin, One, One, Radians.Zero, Radians.Zero, Proportion.Zero, Colour.Black)
-    val toX = Ellipse(Origin, One, One, Radians.Zero, Radians.QuarterTurn, Proportion.Zero, Colour.Black)
-    val toY = Ellipse(Origin, One, One, Radians.QuarterTurn, Radians.QuarterTurn, Proportion.Zero, Colour.Black)
-    val toNegativeX = Ellipse(Origin, One, One, Radians.HalfTurn, Radians.QuarterTurn, Proportion.Zero, Colour.Black)
-    val toNegativeY = Ellipse(Origin, One, One, Radians.ThreeQuarterTurn, Radians.QuarterTurn, Proportion.Zero, Colour.Black)
+    val toZ = rotatedEllipse(Radians.Zero, Radians.Zero)
+    val toX = rotatedEllipse(Radians.Zero, Radians.QuarterTurn)
+    val toY = rotatedEllipse(Radians.QuarterTurn, Radians.QuarterTurn)
+    val toNegativeX = rotatedEllipse(Radians.HalfTurn, Radians.QuarterTurn)
+    val toNegativeY = rotatedEllipse(Radians.ThreeQuarterTurn, Radians.QuarterTurn)
 
     assert(negligibleDifference(toZ.surfaceNormal, CartesianVector.toUnitVector(0, 0, 1)))
     assert(negligibleDifference(toX.surfaceNormal, CartesianVector.toUnitVector(1, 0, 0)))
@@ -21,4 +21,16 @@ class EllipseTest extends FunSuite with VectorTest {
     assert(negligibleDifference(toNegativeX.surfaceNormal, CartesianVector.toUnitVector(-1, 0, 0)))
     assert(negligibleDifference(toNegativeY.surfaceNormal, CartesianVector.toUnitVector(0, -1, 0)))
   }
+
+  private def rotatedEllipse(horizontalTurn: Radians, verticalTilt: Radians): Ellipse =
+    Ellipse(
+      centre = Origin,
+      axis0Length = One,
+      axis1Length = One,
+      horizontalTurn = horizontalTurn,
+      verticalTilt = verticalTilt,
+      reflectivity = Proportion.Zero,
+      transparency = Proportion.Zero,
+      colour = Colour.Black
+    )
 }

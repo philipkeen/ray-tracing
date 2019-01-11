@@ -262,3 +262,6 @@ run /Users/PhillipKeen/Documents/ refractive.txt refractive4
 run /Users/PhillipKeen/Documents/ sphere-scene.txt ray-tracing-1
 run /Users/PhillipKeen/Documents/ sphere-scene.txt ray-tracing-2
 exit
+compile
+test
+exit

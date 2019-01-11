@@ -1,1 +1,1 @@
-["domain.model.ColourTest","domain.model.EllipseTest","domain.PhysicsAlgTest","domain.TracingAlgTest","task.TaskTest","domain.ViewAlgTest","domain.maths.CartesianVectorTest","domain.parse.ParseTest"]
+["domain.model.ColourTest","domain.model.EllipseTest","domain.PhysicsTest","task.TaskTest","domain.ViewAlgTest","domain.maths.CartesianVectorTest","domain.TracingTest","domain.parse.ParseTest"]

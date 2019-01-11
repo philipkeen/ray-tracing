@@ -22,10 +22,6 @@ object FileIO {
         case Failure(error) =>
           Left(FileIOError(s"Error opening ${file.value}:\n $error"))
       }
-//      val fileContents = io.Source.fromFile(directory.value + "/" + file.value)
-//      val sceneOrError = parseFileContents(fileContents.getLines().toList)
-//      fileContents.close()
-//      sceneOrError
     })
 
   def savePicture(image: BufferedImage, directory: Directory, imageName: NonEmptyString): Task[Unit] =

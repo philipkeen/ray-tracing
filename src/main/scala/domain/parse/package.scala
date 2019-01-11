@@ -152,18 +152,6 @@ package object parse {
       case _ => Left(ParseError("Wrong number of fields in 'lightSource': expected 2"))
     }
 
-//  private def parseCamera(indexedLines: List[(String, Int)]): ErrorOr[Camera] =
-//    indexedLines match {
-//      case locationWithIndex :: upWithIndex :: rightWithIndex :: distanceWithIndex:: Nil =>
-//        for {
-//          location <- parseVectorField("location", locationWithIndex._1, locationWithIndex._2)
-//          up <- parseVectorField("up", upWithIndex._1, upWithIndex._2)
-//          right <- parseVectorField("right", rightWithIndex._1, rightWithIndex._2)
-//          distance <- parsePositiveNumberField("distanceFromScreen", distanceWithIndex._1, distanceWithIndex._2)
-//          camera <- Camera(location, up, right, distance)
-//        } yield camera
-//      case _ => Left(ParseError("Wrong number of fields in 'camera': expected 4"))
-//    }
 
   private def parseImageResolution(indexedLines: List[(String, Int)]): ErrorOr[ImageResolution] =
     indexedLines.sortBy(_._1) match {
@@ -195,8 +183,8 @@ package object parse {
       case _ =>
         Left(
           lines.headOption.map(headWithIndex =>
-            ParseError(headWithIndex._2 + 1, s"Expected 5 parameters for a triangle, found ${lines.map(_._1)}")
-          ).getOrElse(ParseError("Expected 4 parameters for a triangle"))
+            ParseError(headWithIndex._2 + 1, s"Expected 6 parameters for a triangle, found ${lines.map(_._1)}")
+          ).getOrElse(ParseError("Expected 6 parameters for a triangle"))
         )
     }
 
@@ -223,8 +211,8 @@ package object parse {
       case _ =>
         Left(
           lines.headOption.map(headWithIndex =>
-            ParseError(headWithIndex._2 + 1, s"Expected 6 parameters for a disc, found ${lines.map(_._1)}")
-          ).getOrElse(ParseError("Expected 6 parameters for a disc"))
+            ParseError(headWithIndex._2 + 1, s"Expected 7 parameters for a disc, found ${lines.map(_._1)}")
+          ).getOrElse(ParseError("Expected 7 parameters for a disc"))
         )
     }
 
@@ -253,8 +241,8 @@ package object parse {
       case _ =>
         Left(
           lines.headOption.map(headWithIndex =>
-            ParseError(headWithIndex._2 + 1, s"Expected 7 parameters for an ellipse, found ${lines.map(_._1)}")
-          ).getOrElse(ParseError("Expected 7 parameters for an ellipse"))
+            ParseError(headWithIndex._2 + 1, s"Expected 8 parameters for an ellipse, found ${lines.map(_._1)}")
+          ).getOrElse(ParseError("Expected 8 parameters for an ellipse"))
         )
     }
 

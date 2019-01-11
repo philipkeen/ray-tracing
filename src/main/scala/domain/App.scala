@@ -12,8 +12,8 @@ import task.Task
 import task.Task._
 
 final case class App(
-  tracingAlg: TracingAlg,
-  loggingAlg: LoggingAlg[Task]
+                      tracingAlg: Tracing,
+                      loggingAlg: LoggingAlg[Task]
 ) {
   import loggingAlg._
 

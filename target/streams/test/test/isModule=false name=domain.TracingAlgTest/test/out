@@ -1,14 +1,3 @@
 [0m[[0m[0minfo[0m] [0m[0m[32mTracingAlgTest:[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m- TracingAlg.castRay includes refractions *** FAILED ***[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  scala.MatchError: RefractedRay(Ray(ArbitraryCartesianVector(0.0,14.885928640465075,-0.9380671771326132),UnitCartesianVector(0.0,0.9993008618250219,-0.03738699714832202))) (of class domain.model.RefractedRay)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.$anonfun$traceRay$5(TracingAlg.scala:79)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.Option.flatMap(Option.scala:188)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.$anonfun$traceRay$4(TracingAlg.scala:79)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.$anonfun$traceRay$1(TracingAlg.scala:56)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.Option.map(Option.scala:163)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.tracePaths$1(TracingAlg.scala:49)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.$anonfun$traceRay$5(TracingAlg.scala:80)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at scala.Option.flatMap(Option.scala:188)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.$anonfun$traceRay$4(TracingAlg.scala:79)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  at domain.TracingAlg.$anonfun$traceRay$1(TracingAlg.scala:56)[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[31m  ...[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- TracingAlg.castRay includes reflections[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- TracingAlg.castRay includes refractions[0m[0m
