@@ -30,7 +30,7 @@ object Physics {
         distanceFromRayOrigin = ray.origin distanceTo surfacePoint.point,
         intersectionPoint = surfacePoint.point,
         surfaceNormal = surfacePoint.normal,
-        reflectionRay = reflectionAtSurface(surfacePoint, ray.direction),
+        reflectionRay = Some(reflectionAtSurface(surfacePoint, ray.direction)),
         refractionRay = None
       )
     }
@@ -313,27 +313,16 @@ object Physics {
       }
   }
 
-  private def reflectionDirection(
-    pointOfReflection: CartesianVector,
-    surfaceNormal: UnitCartesianVector,
-    incomingDirection: UnitCartesianVector
-  ): UnitCartesianVector = {
-    val generalReflectionVector = incomingDirection - 2 * (surfaceNormal dot incomingDirection) * surfaceNormal
-    generalReflectionVector.toUnitVector
-  }
-
   private def reflectionAtSurface(
     surfacePoint: SurfacePoint,
     incomingDirection: UnitCartesianVector
-  ): Option[ReflectedRay] =
-    inverseCosine(surfacePoint.normal dot incomingDirection) map { angleOfIncidence =>
-      ReflectedRay(
-        ray = Ray(
-          origin = surfacePoint.point,
-          direction = (incomingDirection - 2 * (surfacePoint.normal dot incomingDirection) * surfacePoint.normal).toUnitVector
-        )
+  ): ReflectedRay =
+    ReflectedRay(
+      ray = Ray(
+        origin = surfacePoint.point,
+        direction = (incomingDirection - 2 * (surfacePoint.normal dot incomingDirection) * surfacePoint.normal).toUnitVector
       )
-    }
+    )
 
   private def refractionAndReflectionAtSurface(
     surfacePoint: SurfacePoint,
@@ -377,6 +366,14 @@ object Physics {
         }
       (refraction, reflection)
     }
+  }
+  private def reflectionDirection(
+    pointOfReflection: CartesianVector,
+    surfaceNormal: UnitCartesianVector,
+    incomingDirection: UnitCartesianVector
+  ): UnitCartesianVector = {
+    val generalReflectionVector = incomingDirection - 2 * (surfaceNormal dot incomingDirection) * surfaceNormal
+    generalReflectionVector.toUnitVector
   }
 
   private def refractionMaybe(
