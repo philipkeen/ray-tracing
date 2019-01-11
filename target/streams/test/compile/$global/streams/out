@@ -1,0 +1,16 @@
+[0m[[0m[31merror[0m] [0m[0m/Users/PhillipKeen/dev/experiments/ray-tracing/src/test/scala/domain/GeometryAlgTest.scala:22:42: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : domain.maths.NonNegativeNumber[0m
+[0m[[0m[31merror[0m] [0m[0m required: domain.maths.Proportion[0m
+[0m[[0m[31merror[0m] [0m[0m        transparency = NonNegativeNumber.Zero,[0m
+[0m[[0m[31merror[0m] [0m[0m                                         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/PhillipKeen/dev/experiments/ray-tracing/src/test/scala/domain/GeometryAlgTest.scala:46:42: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : domain.maths.NonNegativeNumber[0m
+[0m[[0m[31merror[0m] [0m[0m required: domain.maths.Proportion[0m
+[0m[[0m[31merror[0m] [0m[0m        transparency = NonNegativeNumber.Zero,[0m
+[0m[[0m[31merror[0m] [0m[0m                                         ^[0m
+[0m[[0m[31merror[0m] [0m[0m/Users/PhillipKeen/dev/experiments/ray-tracing/src/test/scala/domain/GeometryAlgTest.scala:63:42: type mismatch;[0m
+[0m[[0m[31merror[0m] [0m[0m found   : domain.maths.NonNegativeNumber[0m
+[0m[[0m[31merror[0m] [0m[0m required: domain.maths.Proportion[0m
+[0m[[0m[31merror[0m] [0m[0m        transparency = NonNegativeNumber.Zero,[0m
+[0m[[0m[31merror[0m] [0m[0m                                         ^[0m
+[0m[[0m[31merror[0m] [0m[0mthree errors found[0m

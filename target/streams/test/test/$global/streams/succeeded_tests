@@ -1,0 +1,11 @@
+#Successful Tests
+#Wed Jan 09 23:29:33 GMT 2019
+domain.model.ColourTest=1547076572907
+domain.parse.ParseTest=1547076573298
+domain.PhysicsAlgTest=1547076573019
+domain.model.EllipseTest=1547076573105
+task.TaskTest=1547076572992
+domain.TracingAlgTest=1547076573181
+domain.maths.CartesianVectorTest=1547076572911
+domain.GeometryAlgTest=1547027870940
+domain.ViewAlgTest=1547076572877

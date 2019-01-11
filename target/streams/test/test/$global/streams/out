@@ -1,0 +1,22 @@
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.ViewAlgTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.model.ColourTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(task.TaskTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.maths.CartesianVectorTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.PhysicsAlgTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.model.EllipseTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.parse.ParseTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(domain.TracingAlgTest, org.scalatest.tools.Framework$$anon$1@2de459c7, false, [SuiteSelector])[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 873 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 14[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 8, aborted 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 14, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
+[0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.model.ColourTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.model.EllipseTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.PhysicsAlgTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.TracingAlgTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	task.TaskTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.ViewAlgTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.maths.CartesianVectorTest[0m
+[0m[[0m[0mdebug[0m] [0m[0m	domain.parse.ParseTest[0m
