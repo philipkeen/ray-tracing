@@ -17,9 +17,6 @@ class ParseTest extends FunSuite {
       "  maxShadowRaysPerPoint: 2",
       "  antiAliasing: true",
       "  defaultColour: ffffff",
-      "imageResolution",
-      "  widthResolution: 10",
-      "  heightResolution: 20",
       "triangle",
       "  vertex0: (1, 1, 1)",
       "  vertex1: (1, 2, 3)",
@@ -77,9 +74,6 @@ class ParseTest extends FunSuite {
       "  maxShadowRaysPerPoint: 2",
       "  antiAliasing: true",
       "  defaultColour: ffffff",
-      "imageResolution",
-      "  widthResolution: 10",
-      "  heightResolution: 20",
       "triangle",
       "  ",
       "  vertex0: (1, 1, 1)",
@@ -112,9 +106,6 @@ class ParseTest extends FunSuite {
       "  maxShadowRaysPerPoint: 2",
       "  antiAliasing: true",
       "  defaultColour: ffffff",
-      "imageResolution",
-      "  widthResolution: 10",
-      "  heightResolution: 20",
       "triangle",
       "  ",
       "  vertex0: (1, 1, 1)",
@@ -135,6 +126,6 @@ class ParseTest extends FunSuite {
     val actual = parseFileContents(fileContents)
 
     assert(actual.isLeft)
-    assert(actual.left.get.message == "Error in line 18: Unable to interpret (3, 2) as a vector with three coordinates")
+    assert(actual.left.get.message == "Error in line 15: Unable to interpret (3, 2) as a vector with three coordinates")
   }
 }

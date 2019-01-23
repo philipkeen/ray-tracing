@@ -2,8 +2,8 @@ package domain.model
 
 import java.awt.Color
 
+import domain.error.InvalidArgumentError
 import domain.maths.Proportion
-import domain.utils.InvalidArgumentError
 
 sealed abstract case class PrimaryColour private[model](value: Int) { self =>
   import PrimaryColour._

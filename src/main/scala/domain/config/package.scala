@@ -1,34 +1,54 @@
 package domain
 
-import java.rmi.server.RemoteObjectInvocationHandler
-
-import domain.utils.{AppError, InvalidArgumentError, NonEmptyString}
+import domain.error.{AppError, InvalidArgumentError}
+import domain.maths.PositiveInteger
+import domain.utils.NonEmptyString
 import task.Task
 
 package object config {
 
-  def readArguments(args: Array[String], defaultDirectory: Directory): Task[Either[AppError, FileConfig]] =
+  private val positiveIntegerRegex = """^[1-9]\d*$""".r
+
+  def readPictureConfig(args: Array[String], defaultDirectory: Directory): Task[Either[AppError, PictureConfig]] =
     Task.sync {
       args match {
-        case Array(sceneFileString, imageNameString) =>
-          toFileConfig(defaultDirectory, sceneFileString, imageNameString)
-        case Array(directoryString, sceneFileString, imageNameString) =>
-          toFileConfig(directoryString, sceneFileString, imageNameString)
+        case Array(sceneFileString, imageNameString, widthString, heightString) =>
+          toPictureConfig(defaultDirectory, sceneFileString, imageNameString, widthString, heightString)
+        case Array(directoryString, sceneFileString, imageNameString, widthString, heightString) =>
+          toPictureConfig(directoryString, sceneFileString, imageNameString, widthString, heightString)
         case _ =>
-          Left(InvalidArgumentError(s"Expected three runtime arguments"))
+          Left(InvalidArgumentError(s"Expected runtime arguments to file configuration"))
       }
     }
 
-  private def toFileConfig(
+  private def toPictureConfig(
     directoryString: String,
     sceneFileString: String,
-    imageNameString: String
-  ): Either[AppError, FileConfig] =
+    imageNameString: String,
+    widthString: String,
+    heightString: String
+  ): Either[AppError, PictureConfig] =
     for {
       directory <- parseDirectory(directoryString)
       sceneFile <- parseNonEmptyParameter("scene file", sceneFileString)
       imageName <- parseNonEmptyParameter("image name", imageNameString)
-    } yield FileConfig(directory, sceneFile, imageName)
+      width <- parsePositiveInteger("width", widthString)
+      height <- parsePositiveInteger("height", heightString)
+    } yield PictureConfig(directory, sceneFile, imageName, ImageResolution(width, height))
+
+  private def toPictureConfig(
+    directory: Directory,
+    sceneFileString: String,
+    imageNameString: String,
+    widthString: String,
+    heightString: String
+  ): Either[AppError, PictureConfig] =
+    for {
+      sceneFile <- parseNonEmptyParameter("scene file", sceneFileString)
+      imageName <- parseNonEmptyParameter("image name", imageNameString)
+      width <- parsePositiveInteger("width", widthString)
+      height <- parsePositiveInteger("height", heightString)
+    } yield PictureConfig(directory, sceneFile, imageName, ImageResolution(width, height))
 
   private def parseDirectory(directoryString: String): Either[AppError, Directory] =
     Directory(directoryString) match {
@@ -42,27 +62,10 @@ package object config {
       case None => Left(InvalidArgumentError(s"The $parameterName must be a non-empty string"))
     }
 
-  private def toFileConfig(
-    directory: Directory,
-    sceneFileString: String,
-    imageNameString: String
-  ): Either[AppError, FileConfig] = {
-    val fileConfigMaybe = for {
-      sceneFile <- NonEmptyString(sceneFileString)
-      imageName <- NonEmptyString(imageNameString)
-    } yield FileConfig(directory, sceneFile, imageName)
-    fileConfigMaybe match {
-      case Some(fileConfig) =>
-        Right(
-          fileConfig
-        )
-      case None =>
-        Left(
-          InvalidArgumentError(
-            s"Unable to create FileConfig for directory=$directory, sceneFile=$sceneFileString, imageName=$imageNameString"
-          )
-        )
+  private def parsePositiveInteger(parameterName: String, parameterString: String): Either[AppError, PositiveInteger] =
+    positiveIntegerRegex.findFirstIn(parameterString) match {
+      case Some(positiveInteger) => PositiveInteger(positiveInteger.toInt)
+      case None => Left(InvalidArgumentError(s"The $parameterName must be a positive integer, received $parameterString"))
     }
-  }
 
 }

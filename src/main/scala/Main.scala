@@ -1,24 +1,29 @@
-import app.{AppConsoleLogging, AppRandom, AppTimer}
+import app._
 import domain.{App, Tracing}
 import domain.config._
 import domain.logging.LogLevel
-import domain.utils.NonEmptyString
-import task.Task
+import task.Task._
 
 object Main {
 
   def main(args: Array[String]): Unit = {
     implicit val timeAlg: AppTimer = new AppTimer()
 
+    val fileIO = new AppFileIO()
     val tracingAlg = Tracing(new AppRandom())
     val loggingAlg = new AppConsoleLogging()
-    val app = App(tracingAlg, loggingAlg)
+    val app = App(fileIO, tracingAlg, loggingAlg)
 
     val renderTask = for {
-      fileConfigOrError <- readArguments(args, Directory(System.getProperty("user.home") + "/").get)
-      renderAttempt <- fileConfigOrError match {
-        case Right(fc) => app.renderScene(fc.directory, fc.sceneFile, fc.imageName)
-        case Left(error) => loggingAlg.log(s"$error", LogLevel.Error) *> Task.pure(())
+      pictureConfigOrError <- readPictureConfig(args, Directory(System.getProperty("user.home") + "/").get)
+      renderAttempt <- pictureConfigOrError match {
+        case Right(pictureConfig) =>
+          import pictureConfig._
+          for {
+            picture <- pure(new AppPicture(directory, imageName, imageResolution))
+            _ <- app.renderScene(directory, sceneFile, picture)
+          } yield ()
+        case Left(error) => loggingAlg.log(s"$error", LogLevel.Error) *> pure(())
       }
     } yield renderAttempt
     renderTask.run()

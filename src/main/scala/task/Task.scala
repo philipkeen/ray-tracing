@@ -21,7 +21,6 @@ sealed abstract class Task[+A] { self =>
       case Pure(a) => a
       case Sync(call) => call()
       case fm: FlatMap[_, A] => fm.f(fm.source.run()).run()
-      case lp: Loop[_, A] => lp.runIterations()
     }
 }
 
@@ -36,38 +35,10 @@ object Task {
       f(a).zip(task).map { case (b, bs) => b :: bs }
     }
 
-  final def loop[A](
-    first: => A,
-    nextValue: => A => A,
-    finishAfter: A => Boolean
-  )(
-    forEach: A => Task[Unit]
-  ): Task[Unit] =
-    Loop(first, nextValue, forEach, finishAfter)
-
   private[task] final case class Pure[+A](value: A) extends Task[A]
 
   private[task] final case class Sync[+A](call: () => A) extends Task[A]
 
   private[task] final case class FlatMap[B, +A](source: Task[B], f: B => Task[A]) extends Task[A]
-
-  private[task] final case class Loop[B, +A](
-    first: B,
-    nextValue: B => B,
-    forEach: B => Task[A],
-    finishAfter: B => Boolean
-  ) extends Task[A] {
-
-    def runIterations(): A =
-      runIterationsFrom(first)
-
-    private def runIterationsFrom(currentValue: B): A =
-      if (!finishAfter(currentValue)) {
-        forEach(currentValue).run()
-        runIterationsFrom(nextValue(currentValue))
-      } else {
-        forEach(currentValue).run()
-      }
-  }
 
 }

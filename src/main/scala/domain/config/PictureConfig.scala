@@ -2,10 +2,11 @@ package domain.config
 
 import domain.utils.NonEmptyString
 
-final case class FileConfig(
+final case class PictureConfig(
   directory: Directory,
   sceneFile: NonEmptyString,
-  imageName: NonEmptyString
+  imageName: NonEmptyString,
+  imageResolution: ImageResolution
 )
 
 abstract case class Directory(value: String)

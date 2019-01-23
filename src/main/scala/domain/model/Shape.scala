@@ -1,7 +1,7 @@
 package domain.model
 
+import domain.error.InvalidArgumentError
 import domain.maths._
-import domain.utils.InvalidArgumentError
 
 sealed trait Shape {
   def reflectivity: Proportion

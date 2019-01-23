@@ -1,9 +1,9 @@
 package domain
 
 import domain.config.{ImageResolution, RenderSettings}
+import domain.error.{AppError, InvalidArgumentError, ParseError}
 import domain.maths._
 import domain.model._
-import domain.utils.{AppError, InvalidArgumentError, ParseError}
 
 import scala.annotation.tailrec
 
@@ -13,7 +13,6 @@ package object parse {
 
   private val lightSourceDeclarationRegex = """^(lightSource)\s*$""".r
   private val renderSettingsDeclarationRegex = """^(renderSettings)\s*$""".r
-  private val imageResolutionDeclarationRegex = """^(imageResolution)\s*$""".r
   private val triangleDeclarationRegex = """^(triangle)\s*$""".r
   private val discDeclarationRegex = """^(disc)\s*$""".r
   private val ellipseDeclarationRegex = """^(ellipse)\s*$""".r
@@ -23,7 +22,6 @@ package object parse {
   private val cylinderDeclarationRegex = """^(cylinder)\s*$""".r
   private val coneDeclarationRegex = """^(cone)\s*$""".r
 
-  private val colourRegex = """^([1-9]\d{0,2})\s+([1-9]\d{0,2})\s+([1-9]\d{0,2})$""".r
   private val doubleRegex = """^\-?\d+(\.\d+)?$""".r
   private val positiveDoubleRegex = """^\d+(\.\d+)?$""".r
   private val positiveIntegerRegex = """^[1-9]\d*$""".r
@@ -74,10 +72,6 @@ package object parse {
               case renderSettingsDeclarationRegex(_) =>
                 withUniqueBlock(parseRenderSettings(body), fileAcc.renderSettingsMaybe) { renderSettings =>
                   Right(fileAcc.copy(renderSettingsMaybe = Some(renderSettings)))
-                }
-              case imageResolutionDeclarationRegex(_) =>
-                withUniqueBlock(parseImageResolution(body), fileAcc.imageResolutionMaybe) { imageResolution =>
-                  Right(fileAcc.copy(imageResolutionMaybe = Some(imageResolution)))
                 }
               case triangleDeclarationRegex(_) =>
                 parseTriangle(body).map(triangle => fileAcc.copy(objects = fileAcc.objects + triangle))
@@ -150,22 +144,6 @@ package object parse {
           rad <- parsePositiveNumberField("radius", radius._1, radius._2)
         } yield LightSource(loc, rad, amb)
       case _ => Left(ParseError("Wrong number of fields in 'lightSource': expected 2"))
-    }
-
-
-  private def parseImageResolution(indexedLines: List[(String, Int)]): ErrorOr[ImageResolution] =
-    indexedLines.sortBy(_._1) match {
-      case height :: width :: Nil =>
-        for {
-          w <- parsePositiveIntegerField("widthResolution", width._1, width._2)
-          h <- parsePositiveIntegerField("heightResolution", height._1, height._2)
-        } yield
-          ImageResolution(
-            width = w,
-            height = h
-          )
-      case _ =>
-        Left(ParseError("Wrong number of fields in 'imageSettings', expected 3"))
     }
 
   private def parseTriangle(lines: List[(String, Int)]): ErrorOr[Shape] =
@@ -517,21 +495,19 @@ package object parse {
 
   private final case class FileContentsAcc(
     renderSettingsMaybe: Option[RenderSettings],
-    imageResolutionMaybe: Option[ImageResolution],
     lightSourceMaybe: Option[LightSource],
     objects: Set[Shape] = Set()
   ) {
     def toFileContents: ErrorOr[FileContents] =
-      (renderSettingsMaybe, lightSourceMaybe, imageResolutionMaybe) match {
-        case (Some(renderSettings), Some(lightSource), Some(imageSettings)) =>
-          Right(FileContents(renderSettings, imageSettings, lightSource, objects))
+      (renderSettingsMaybe, lightSourceMaybe) match {
+        case (Some(renderSettings), Some(lightSource)) =>
+          Right(FileContents(renderSettings, lightSource, objects))
         case _ =>
           Left(InvalidArgumentError(s"Unable to create FileContents: missing fields " + missingMandatoryFields.mkString(",")))
       }
 
     private def missingMandatoryFields: List[String] =
       renderSettingsMaybe.map(_ => List()).getOrElse(List("renderSettings")) ++
-        imageResolutionMaybe.map(_ => List()).getOrElse(List("imageResolution")) ++
         lightSourceMaybe.map(_ => List()).getOrElse(List("lightSource"))
   }
 
@@ -539,7 +515,6 @@ package object parse {
     def empty: FileContentsAcc =
       FileContentsAcc(
         renderSettingsMaybe = None,
-        imageResolutionMaybe = None,
         lightSourceMaybe = None,
         objects = Set()
       )

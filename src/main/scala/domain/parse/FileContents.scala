@@ -5,7 +5,6 @@ import domain.model.{LightSource, Shape}
 
 final case class FileContents(
   renderSettings: RenderSettings,
-  imageResolution: ImageResolution,
   lightSource: LightSource,
   objects: Set[Shape]
 )

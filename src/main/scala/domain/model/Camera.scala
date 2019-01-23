@@ -1,7 +1,7 @@
 package domain.model
 
+import domain.error.InvalidArgumentError
 import domain.maths.{CartesianVector, PositiveNumber, UnitCartesianVector}
-import domain.utils.InvalidArgumentError
 
 sealed abstract case class Camera private[model] (
   location: CartesianVector,

@@ -1,6 +1,6 @@
 package domain.model
 
-import domain.utils.InvalidArgumentError
+import domain.error.InvalidArgumentError
 
 sealed abstract case class RefractiveIndex(value: Double)
 

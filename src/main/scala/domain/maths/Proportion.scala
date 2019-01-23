@@ -1,6 +1,6 @@
 package domain.maths
 
-import domain.utils.InvalidArgumentError
+import domain.error.InvalidArgumentError
 
 sealed abstract case class Proportion(value: Double) {
 

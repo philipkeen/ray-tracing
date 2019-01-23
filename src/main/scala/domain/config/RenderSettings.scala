@@ -1,8 +1,8 @@
 package domain.config
 
+import domain.error.InvalidArgumentError
 import domain.maths.PositiveInteger
 import domain.model.Colour
-import domain.utils.InvalidArgumentError
 
 sealed abstract case class RenderSettings private(
   maxReflections: PositiveInteger,
