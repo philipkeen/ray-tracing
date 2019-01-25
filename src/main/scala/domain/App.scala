@@ -3,7 +3,6 @@ package domain
 import domain.config.{Directory, RenderSettings}
 import domain.error.AppError
 import domain.logging.LogLevel
-import domain.maths.PositiveInteger
 import domain.model._
 import domain.parse.FileContents
 import domain.utils.NonEmptyString
@@ -11,7 +10,7 @@ import task.Task
 import task.Task._
 
 final case class App(
-  fileIO: FileIO,
+  fileIO: FileIO[Task],
   tracingAlg: Tracing,
   loggingAlg: LoggingAlg[Task]
 ) {
@@ -20,7 +19,7 @@ final case class App(
   def renderScene(
     directory: Directory,
     sceneFile: NonEmptyString,
-    picture: Picture
+    picture: Picture[Task]
   ): Task[Unit] =
     withSceneLoaded(directory, sceneFile) { fileContents =>
       import fileContents._
@@ -29,13 +28,13 @@ final case class App(
         imageHeight <- pure(picture.imageResolution.height.intValue)
         imageWidth <- pure(picture.imageResolution.width.intValue)
         milestones <- milestones(imageHeight)
-        unitOrError <- loop(start = 0, finishAfter = imageHeight - 1) { y =>
-          maybeLogProgress(y, imageHeight, milestones) *>
-            loop(start = 0, finishAfter = imageWidth - 1) { x =>
-              paintPixel(x, y, picture, lightSource, objects, renderSettings)
-            }
+        paintedOrError <- loop((0 until imageHeight).toList) { y =>
+          loop((0 until imageWidth).toList) { x =>
+            paintPixel(x, y, picture, lightSource, objects, renderSettings) <*
+              maybeLogProgress(x, y, imageHeight, milestones)
+          }
         }
-        _ <- completePicture(picture, unitOrError)
+        _ <- persistPicture(picture, paintedOrError)
       } yield ()
     }
 
@@ -57,33 +56,26 @@ final case class App(
     )
   }
 
-  private def maybeLogProgress(y: Int, screenHeight: Int, milestones: Set[Int]): Task[Unit] =
-    if (milestones.contains(y)) {
-      log(f"${y / screenHeight.toDouble * 100}%3.2f" +"% of picture rendered", LogLevel.Info)
+  private def maybeLogProgress(x: Int, y: Int, screenHeight: Int, milestones: Set[Int]): Task[Unit] =
+    if (x == 0 && milestones.contains(y)) {
+      log(f"${(screenHeight - y) / screenHeight.toDouble * 100}%3.2f" +"% of picture rendered", LogLevel.Info)
     } else {
       pure(())
     }
 
   private def loop(
-    start: Int,
-    finishAfter: Int
+    ints: List[Int]
   )(
     forEach: Int => Task[Either[AppError, Unit]]
-  ): Task[Either[AppError, Unit]] = {
-    def runFromIteration(currentValue: Int): Task[Either[AppError, Unit]] =
-      forEach(currentValue) flatMap {
-        case Right(_) if currentValue < finishAfter => runFromIteration(currentValue + 1)
-        case Right(unit) => pure(Right(unit))
-        case Left(error) => pure(Left(error))
-      }
-
-    runFromIteration(start)
-  }
+  ): Task[Either[AppError, Unit]] =
+    traverseOrError(ints)(forEach).map{
+      listOrError => listOrError.map(_ => ())
+    }
 
   private def paintPixel(
     x: Int,
     y: Int,
-    picture: Picture,
+    picture: Picture[Task],
     lightSource: LightSource,
     objects: Set[Shape],
     renderSettings: RenderSettings
@@ -96,8 +88,8 @@ final case class App(
       unitOrError <- picture.paintPixel(pixel, pixelColour)
     } yield unitOrError
 
-  private def completePicture(
-    picture: Picture,
+  private def persistPicture(
+    picture: Picture[Task],
     paintingResult: Either[AppError, Unit]
   ): Task[Unit] =
     paintingResult match {

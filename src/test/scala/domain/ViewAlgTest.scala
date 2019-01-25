@@ -15,30 +15,6 @@ class ViewAlgTest extends FunSuite {
 
     val expectedRay = Ray(CartesianVector.Origin, CartesianVector(-0.6, 1, 0.8).toUnitVector)
 
-//    Map(
-//      Pixel(0, 0) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.6, 1, 0.8).toUnitVector),
-//      Pixel(0, 1) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.6, 1, 0.4).toUnitVector),
-//      Pixel(0, 2) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.6, 1, 0).toUnitVector),
-//      Pixel(0, 3) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.6, 1, -0.4).toUnitVector),
-//      Pixel(0, 4) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.6, 1, -0.8).toUnitVector),
-//      Pixel(1, 0) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.2, 1, 0.8).toUnitVector),
-//      Pixel(1, 1) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.2, 1, 0.4).toUnitVector),
-//      Pixel(1, 2) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.2, 1, 0).toUnitVector),
-//      Pixel(1, 3) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.2, 1, -0.4).toUnitVector),
-//      Pixel(1, 4) -> Ray(CartesianVector(0, -5, 0), CartesianVector(-0.2, 1, -0.8).toUnitVector),
-//      Pixel(2, 0) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.2, 1, 0.8).toUnitVector),
-//      Pixel(2, 1) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.2, 1, 0.4).toUnitVector),
-//      Pixel(2, 2) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.2, 1, 0).toUnitVector),
-//      Pixel(2, 3) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.2, 1, -0.4).toUnitVector),
-//      Pixel(2, 4) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.2, 1, -0.8).toUnitVector),
-//      Pixel(3, 0) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.6, 1, 0.8).toUnitVector),
-//      Pixel(3, 1) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.6, 1, 0.4).toUnitVector),
-//      Pixel(3, 2) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.6, 1, 0).toUnitVector),
-//      Pixel(3, 3) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.6, 1, -0.4).toUnitVector),
-//      Pixel(3, 4) -> Ray(CartesianVector(0, -5, 0), CartesianVector(0.6, 1, -0.8).toUnitVector)
-//    ).foreach { case (pixel, expectedRay) =>
-//      assert(ViewAlg.getCameraRayThroughPixel(pixel, imageSettings) == expectedRay)
-//    }
     assert(ViewAlg.getCameraRayThroughPixel(Pixel(0, 0), resolution) == expectedRay)
   }
 

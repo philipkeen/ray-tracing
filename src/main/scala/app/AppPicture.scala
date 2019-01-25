@@ -16,7 +16,7 @@ class AppPicture(
   directory: Directory,
   override val imageName: NonEmptyString,
   override val imageResolution: ImageResolution
-) extends Picture {
+) extends Picture[Task] {
 
   private val ImagePixelSideLength = 1
 

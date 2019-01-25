@@ -9,7 +9,7 @@ import task.Task
 
 import scala.util.{Failure, Success, Try}
 
-class AppFileIO extends FileIO {
+class AppFileIO extends FileIO[Task] {
 
   override def loadPictureSettingsFromFile(
     directory: Directory,

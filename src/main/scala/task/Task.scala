@@ -30,9 +30,18 @@ object Task {
 
   final def sync[A](call: => A): Task[A] = Sync(() => call)
 
-  final def traverse[A, B](in: Iterable[A])(f: A => Task[B]): Task[List[B]] =
-    in.foldRight[Task[List[B]]](Task.sync(Nil)) { case (a, task) =>
+  final def traverse[A, B](in: List[A])(f: A => Task[B]): Task[List[B]] =
+    in.foldLeft[Task[List[B]]](Task.sync(Nil)) { case (task, a) =>
       f(a).zip(task).map { case (b, bs) => b :: bs }
+    }
+
+  final def traverseOrError[A, B, E](in: List[A])(f: A => Task[Either[E, B]]): Task[Either[E, List[B]]] =
+    in.foldLeft[Task[Either[E, List[B]]]](Task.sync(Right(Nil))) { case (task, a) =>
+      f(a).zip(task).map {
+        case (Right(b), Right(bs)) => Right(b :: bs)
+        case (Left(e), Right(_)) => Left(e)
+        case (_, Left(e)) => Left(e)
+      }
     }
 
   private[task] final case class Pure[+A](value: A) extends Task[A]
